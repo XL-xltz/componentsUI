@@ -20,6 +20,10 @@
         :label="item.label"
         :width="item.width"
       >
+        <!-- 取到渲染表单的每一项了 -->
+        <template slot-scope="scope">
+          <span @click="onRowClick(scope)"> {{ scope.row[scope.column.property] }}</span>
+        </template>
       </el-table-column>
       <!-- 操作 -->
       <el-table-column fixed="right" label="操作">
@@ -29,6 +33,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- f分页 -->
     <el-pagination background layout="prev, pager, next" :total="pag.total" @current-change="handleCurrentChange">
     </el-pagination>
 
@@ -72,12 +77,26 @@ export default {
   },
   data() {
     return {
-      rowId: ''
+      // 控制表格里的 input 组件
+      rowId: null,
+      // form 手机表单
+      form: {
+        name: ''
+      },
+      // 拿到表单每一项
+      list: ''
     }
   },
   computed: {},
   filters: {},
-  watch: {},
+  watch: {
+    list: {
+      handler(news, olds) {
+        console.log(news, olds)
+        alert(`hello, you clicked   ${news}`)
+      }
+    }
+  },
   created() {
     console.log(this.$attrs, '123')
   },
@@ -99,17 +118,10 @@ export default {
       console.log(`当前页: ${val}`)
       this.$emit('nextList', val)
     },
-    rowClick(res) {
-      console.log(res.address)
-      const add = res.address
-      if (add !== '') {
-        console.log(true)
-        console.log(res)
-        this.rowId = res.id
-      } else {
-        console.log(false)
-      }
-      //
+    onRowClick(scope) {
+      // 拿到每一项
+      this.list = scope.row[scope.column.property]
+      console.log(this.list)
     }
   }
 }
