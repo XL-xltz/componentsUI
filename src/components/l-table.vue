@@ -45,7 +45,7 @@
 
 <script>
 export default {
-  name: 'table',
+  name: 'ltable',
   components: {},
   props: {
     // 分页所需
