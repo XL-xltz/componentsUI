@@ -6,7 +6,7 @@
         <el-table-column
           v-for="(item, index) in initTableCourse.t_head"
           :key="item.props"
-          ,:prop="item.prop"
+          :prop="item.prop"
           :label="item.label"
         >
         </el-table-column>
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: 'table',
+  name: '',
   components: {},
   props: {
     //数据源
