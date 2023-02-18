@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  name: '',
+  name: 'table',
   components: {},
   props: {
     //数据源
