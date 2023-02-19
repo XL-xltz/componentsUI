@@ -14,15 +14,32 @@ export default {
   data() {
     return {
       source_config: {
+        // 多选或者是单选
+        choice: true,
         // 表头
         t_head: [
           { prop: 'date', label: '日期' },
           { prop: 'name', label: '姓名' },
-          { prop: 'address', label: '地址' }
+          {
+            prop: 'switch',
+            label: '开关',
+            type: 'switch_fn',
+            callback: () => {
+              return 1
+            }
+          },
+          { prop: 'address', label: '地址' },
+          { prop: 'button', label: '常规操作', type: 'btn' },
+          { prop: 'customAction', label: '自定义按钮', type: 'customAction_btn' }
         ],
         tableStyle: {
-          width: '900px'
-        }
+          width: '1000px'
+        },
+        // 普通按钮操作
+        operation: [
+          { type: 'danger', label: '删除', color: '#fff', isShow: true },
+          { type: 'primary', label: '编辑', color: 'skyblue', isShow: false }
+        ]
       }
     }
   },

@@ -2,14 +2,44 @@
   <div>
     <div class="tableCon">
       <el-table :data="tableData" :style="initTableCourse.tableStyle" border>
-        <el-table-column :type="choice === 1 ? 'selection' : 'index'" width="55"> </el-table-column>
-        <el-table-column
-          v-for="(item, index) in initTableCourse.t_head"
-          :key="item.props"
-          ,:prop="item.prop"
-          :label="item.label"
-        >
-        </el-table-column>
+        <!-- 单选 多选 -->
+        <el-table-column :type="initTableCourse.choice ? 'selection' : 'index'" width="55"> </el-table-column>
+        <!-- 循环数据源 -->
+        <template v-for="(item, index) in initTableCourse.t_head">
+          <el-table-column :prop="item.prop" :label="item.label" v-if="item.type">
+            <template slot-scope="scope">
+              <!-- 开关 -->
+              <el-switch
+                v-model="scope.row.status"
+                active-value="1"
+                inactive-value="2"
+                v-if="item.type === 'switch_fn'"
+              />
+              <!-- 常规按钮 -->
+              <template v-if="item.type === 'btn'">
+                <span class="slot" v-for="(operations, index) in initTableCourse.operation">
+                  <el-button
+                    v-if="operations.isShow"
+                    :icon="operations.icon"
+                    :type="operations.type"
+                    :style="[{ color: operations.color }]"
+                    size="small"
+                    >{{ operations.label }}</el-button
+                  >
+                </span>
+              </template>
+
+              <!-- 自定义按钮 -->
+              <template v-if="item.type === 'customAction_btn'">
+                <span v-for="(items, index) in scope.row[item.prop]">
+                  <el-button :icon="items.icon" :type="items.type">{{ items.label }}</el-button>
+                </span>
+              </template>
+            </template>
+          </el-table-column>
+          <!-- 没有 callback -->
+          <el-table-column :prop="item.prop" :label="item.label" v-else></el-table-column>
+        </template>
       </el-table>
     </div>
   </div>
@@ -17,18 +47,13 @@
 
 <script>
 export default {
-  name: '',
+  name: 'a_table',
   components: {},
   props: {
     //数据源
     table_config: {
       type: Object,
       default: () => {}
-    },
-    // 多选或者是单选
-    choice: {
-      type: Number,
-      default: 1
     }
   },
   data() {
@@ -38,22 +63,30 @@ export default {
         {
           date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          address: '上海市普陀区金沙江路 1518 弄',
+          status: '1'
         },
         {
           date: '2016-05-04',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          address: '上海市普陀区金沙江路 1517 弄',
+          status: '2',
+          customAction: [
+            { type: 'danger', label: '删除', color: '#fff', isShow: true },
+            { type: 'primary', label: '编辑', color: 'skyblue', isShow: true }
+          ]
         },
         {
           date: '2016-05-01',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          address: '上海市普陀区金沙江路 1519 弄',
+          status: '2'
         },
         {
           date: '2016-05-03',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          address: '上海市普陀区金沙江路 1516 弄',
+          status: '1'
         }
       ],
       // 获取数据源
@@ -63,7 +96,11 @@ export default {
         // style
         tableStyle: {
           width: '1000px'
-        }
+        },
+        // 多选或者是单选
+        choice: true,
+        // 按键
+        operation: []
       }
     }
   },
