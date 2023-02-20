@@ -29,6 +29,8 @@ export default {
             }
           },
           { prop: 'address', label: '地址' },
+          { prop: 'avatarUrl', label: '头像', type: 'avatar' },
+          { prop: 'JumpPage', label: '头像', type: 'JumpPage' },
           { prop: 'button', label: '常规操作', type: 'btn' },
           { prop: 'customAction', label: '自定义按钮', type: 'customAction_btn' }
         ],
