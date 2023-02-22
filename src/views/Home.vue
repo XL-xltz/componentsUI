@@ -1,6 +1,7 @@
 <template>
   <div>
     <tables :table_config="source_config" />
+    <ATable :table_config="source_config" />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="local" :style="boxStyle"></div>
+    <div ref="hist" :style="boxStyle"></div>
   </div>
 </template>
 
@@ -9,62 +9,88 @@ export default {
   name: '',
   components: {},
   props: {
-    // 点击事件
-    clickOnMap: {
-      type: Boolean,
-      default: false
-    },
-    // 宽
-    width: {
-      type: String,
-      default: '800px'
-    },
-    // 高
-    height: {
-      type: String,
-      default: '400px'
-    },
-    // 数据源
-    options: {
+    // 传递的数据
+    mapInit: {
       type: Object,
       default: () => {}
     }
   },
   data() {
     return {
-      mycharts: null
+      // 数据源
+      mycharts: null,
+      // 需要接收的原来的数据
+      list: {
+        width: '1000px',
+        height: '600px',
+        //配置项 && 数据
+        option: {
+          title: {
+            text: 'ECharts 入门示例'
+          },
+          tooltip: {},
+          legend: {
+            data: ['销量']
+          },
+          xAxis: {
+            data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+          },
+          yAxis: {},
+          series: [
+            {
+              name: '销量',
+              type: 'bar',
+              data: [5, 20, 36, 10, 10, 20]
+            }
+          ]
+        }
+      }
     }
   },
   computed: {
+    // 宽高
     boxStyle() {
       return {
-        width: this.width,
-        height: this.height
+        width: this.list.width,
+        height: this.list.height
       }
     }
   },
   filters: {},
-  watch: {},
-  created() {},
+  watch: {
+    // 监听传递的数据
+    mapInit: {
+      handler(newVal) {
+        console.log(newVal, 'asd')
+      },
+      immediate: true,
+      deep: true
+    }
+  },
+  created() {
+    this.initConfig()
+  },
   mounted() {
-    this.setMychatOptions()
+    this.onChat()
   },
   methods: {
-    setMychatOptions() {
-      this.mycharts = this.$echarts.init(this.$refs.local)
-      this.mycharts.setOption(this.options)
-      // 点击事件
-      if (this.clickOnMap) {
-        // 调用 Vue 中的this
-        const _that = this
-        this.mycharts.on('click', function() {
-          console.log(_that)
-          _that.$emit('chatClick', 1)
-          console.log(this)
-        })
-      } else {
-        console.log('关闭点击事件')
+    //
+    initConfig() {
+      // 配置
+      for (let keys in this.mapInit) {
+        console.log(keys, Object.keys(this.list))
+        if (Object.keys(this.list).includes(keys)) {
+          this.list[keys] = this.mapInit[keys]
+        } else {
+          console.error('组件配置项中没有' + keys)
+        }
       }
+    },
+    // 图表实
+    onChat() {
+      this.mycharts = this.$echarts.init(this.$refs.hist)
+      console.log(this.list.option)
+      this.mycharts.setOption(this.list.option)
     }
   }
 }

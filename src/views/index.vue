@@ -1,50 +1,33 @@
 <template>
   <div>
     <div>
-      <eMaps
-        :options="option"
-        :width="width"
-        :height="height"
-        @chatClick="onClcik"
-        :clickOnMap="onclciks"
-        v-if="onpotion"
-      />
-    </div>
-    <div>
-      <el-button @click="asd">123</el-button>
+      <emap :mapInit="map_data" />
     </div>
   </div>
 </template>
 
 <script>
-import eMaps from '../components/echarts/oneEcharts.vue'
-import onechars from '../components/echarts/echartsJs/onecharts.js'
+import emap from '../components/echarts/oneEcharts.vue'
 export default {
   name: '',
   components: {
-    eMaps
+    emap
   },
   data() {
     return {
-      width: '900px',
-      height: '400px',
-      onclciks: false,
-      option: onechars,
-      onpotion: true
+      map_data: {
+        // 图表数据
+        width: '500px',
+        height: '500px',
+        option: {}
+      }
     }
   },
   computed: {},
   filters: {},
   watch: {},
   created() {},
-  methods: {
-    onClcik(val) {
-      console.log(val)
-    },
-    asd() {
-      this.onpotion = !this.onpotion
-    }
-  }
+  methods: {}
 }
 </script>
 
