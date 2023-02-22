@@ -12,6 +12,9 @@ import Components from './components/index.js'
 // 全局样式
 import './style/index.css'
 
+// 测试
+import '../src/components/echarts/index.js'
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts
