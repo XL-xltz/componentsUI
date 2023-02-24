@@ -15,6 +15,22 @@ import './style/index.css'
 // 测试
 import '../src/components/echarts/index.js'
 
+// 节流函数
+Vue.directive('throttle', {
+  inserted: function(el, binding) {
+    console.log(binding)
+    const [fn, data, event, time] = binding.value
+    let timer
+    el.addEventListener(event, () => {
+      if (timer) return
+      timer = setTimeout(() => {
+        fn(data)
+        timer = null
+      }, time)
+    })
+  }
+})
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts

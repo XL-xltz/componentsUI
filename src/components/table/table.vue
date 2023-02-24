@@ -33,7 +33,9 @@
               <!-- 自定义按钮 -->
               <template v-if="item.type === 'customAction_btn'">
                 <span v-for="(items, index) in scope.row[item.prop]">
-                  <el-button :icon="items.icon" :type="items.type">{{ items.label }}</el-button>
+                  <el-button :icon="items.icon" :type="items.type" v-throttle="[searchcs, scope.row, 'click', 5000]">{{
+                    items.label
+                  }}</el-button>
                 </span>
               </template>
 
@@ -69,6 +71,8 @@ export default {
   },
   data() {
     return {
+      //节流
+      timer: null,
       // 模拟数据源
       tableData: [
         {
@@ -146,6 +150,22 @@ export default {
       }
     },
     goPage(res) {
+      console.log(res)
+    },
+    // 点击事件
+    // cust(res) {
+    //   if (this.timer) {
+    //     return
+    //   }
+    //   this.timer = setTimeout(() => {
+    //     console.log('单击事件')
+    //     this.timer = null
+    //     console.log(res)
+    //   }, 3000)
+    // }
+    // 注意这里的操作结束后一定要 this.timer = null 否则不会再次执行单击函数
+    // 注意这里的 5000毫秒 主要是为了测试，实际建议16毫秒即可
+    searchcs(res) {
       console.log(res)
     }
   }
