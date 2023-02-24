@@ -9,27 +9,13 @@ import 'element-ui/lib/theme-chalk/index.css'
 import * as echarts from 'echarts'
 // 注册自己的业务组件
 import Components from './components/index.js'
+
 // 全局样式
 import './style/index.css'
-
+// 自定义指令
+import './instruct/index.js'
 // 测试
 import '../src/components/echarts/index.js'
-
-// 节流函数
-Vue.directive('throttle', {
-  inserted: function(el, binding) {
-    console.log(binding)
-    const [fn, data, event, time] = binding.value
-    let timer
-    el.addEventListener(event, () => {
-      if (timer) return
-      timer = setTimeout(() => {
-        fn(data)
-        timer = null
-      }, time)
-    })
-  }
-})
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
