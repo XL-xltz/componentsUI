@@ -33,15 +33,19 @@
               <!-- 自定义按钮 -->
               <template v-if="item.type === 'customAction_btn'">
                 <span v-for="(items, index) in scope.row[item.prop]">
-                  <el-button :icon="items.icon" :type="items.type" v-throttle="[searchcs, scope.row, 'click', 5000]">{{
-                    items.label
-                  }}</el-button>
+                  <el-button
+                    :icon="items.icon"
+                    :type="items.type"
+                    :disabled="disabled"
+                    v-throttle="[searchcs, scope.row, 'click', 5000]"
+                    >{{ items.label }}</el-button
+                  >
                 </span>
               </template>
 
               <!-- 头像 -->
               <template v-if="item.type === 'avatar'">
-                <el-avatar :src="scope.row.url"></el-avatar>
+                <el-avatar v-lazy="scope.row.url"></el-avatar>
               </template>
 
               <!-- 链接跳转 -->
@@ -71,8 +75,8 @@ export default {
   },
   data() {
     return {
-      //节流
-      timer: null,
+      //是否禁用当前按钮
+      disabled: false,
       // 模拟数据源
       tableData: [
         {
@@ -135,6 +139,12 @@ export default {
         // console.log(newVal, '数据源')
       },
       immediate: true,
+      deep: true
+    },
+    disabled: {
+      handler(newVal, old) {
+        console.log(newVal, old, 'debbg')
+      },
       deep: true
     }
   },

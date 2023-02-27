@@ -11,7 +11,8 @@ export default {
   data() {
     return {
       // 图表
-      chart: null
+      chart: null,
+      text: ''
     }
   },
   props: {
@@ -62,6 +63,9 @@ export default {
         // 有传递的新值 ，那就重新渲染一遍 配置对象
         this.chart.setOption(option)
       }
+    },
+    search() {
+      console.log(this.text)
     }
   }
 }

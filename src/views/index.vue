@@ -2,6 +2,9 @@
   <div>
     <div>
       <emap :chart-option="chartOpt" />
+      <!-- <el-input v-model="text" v-debounce="[search, 'input', 500]"></el-input> -->
+      <el-button @click="num++" v-ClickToJudge:[num]>点击提交</el-button>
+      <div>{{ num }}</div>
     </div>
   </div>
 </template>
@@ -17,6 +20,7 @@ export default {
   },
   data() {
     return {
+      num: 0,
       test,
       newSdata: null,
       chartOpt: {
@@ -50,6 +54,9 @@ export default {
       this.newSdata = res
 
       this.chartOpt = test.testBar(this.newSdata)
+    },
+    she() {
+      this.$message.success('提交成功')
     }
   }
 }
